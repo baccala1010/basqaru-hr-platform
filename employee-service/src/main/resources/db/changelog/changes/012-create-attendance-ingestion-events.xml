@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="012-create-attendance-ingestion-events" author="hr-platform">
+        <createTable tableName="attendance_ingestion_events" schemaName="employee_schema">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="employee_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="external_event_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="event_type" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="location" type="VARCHAR(500)"/>
+            <column name="occurred_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ingestion_status" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="raw_payload" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableSchemaName="employee_schema"
+                baseTableName="attendance_ingestion_events"
+                baseColumnNames="employee_id"
+                referencedTableSchemaName="employee_schema"
+                referencedTableName="employees"
+                referencedColumnNames="id"
+                constraintName="fk_attendance_ingestion_employee"/>
+
+        <addUniqueConstraint
+                schemaName="employee_schema"
+                tableName="attendance_ingestion_events"
+                columnNames="source, external_event_id"
+                constraintName="uk_attendance_ingestion_source_event"/>
+
+        <createIndex tableName="attendance_ingestion_events" schemaName="employee_schema" indexName="idx_attendance_ingestion_employee_id">
+            <column name="employee_id"/>
+        </createIndex>
+
+        <createIndex tableName="attendance_ingestion_events" schemaName="employee_schema" indexName="idx_attendance_ingestion_occurred_at">
+            <column name="occurred_at"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
+

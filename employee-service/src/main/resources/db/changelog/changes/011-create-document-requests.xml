@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="011-create-document-requests" author="hr-platform">
+        <createTable tableName="document_requests" schemaName="employee_schema">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="employee_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="document_type" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="comment" type="TEXT"/>
+            <column name="status" type="VARCHAR(20)" defaultValue="PENDING">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_url" type="VARCHAR(1000)"/>
+            <column name="reject_reason" type="TEXT"/>
+            <column name="signed_by" type="UUID"/>
+            <column name="signed_at" type="TIMESTAMP"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableSchemaName="employee_schema" baseTableName="document_requests" baseColumnNames="employee_id"
+                referencedTableSchemaName="employee_schema" referencedTableName="employees" referencedColumnNames="id"
+                constraintName="fk_document_requests_employee"/>
+
+        <createIndex tableName="document_requests" schemaName="employee_schema" indexName="idx_doc_requests_employee_id">
+            <column name="employee_id"/>
+        </createIndex>
+
+        <createIndex tableName="document_requests" schemaName="employee_schema" indexName="idx_doc_requests_status">
+            <column name="status"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
+

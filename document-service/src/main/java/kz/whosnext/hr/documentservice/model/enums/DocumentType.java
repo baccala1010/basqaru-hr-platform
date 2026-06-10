@@ -1,0 +1,28 @@
+package kz.whosnext.hr.documentservice.model.enums;
+
+public enum DocumentType {
+    EMPLOYMENT_CONTRACT,
+    GPC_CONTRACT,
+    NDA,
+    PERSONAL_DATA_CONSENT,
+    ORDER,
+    ADDITIONAL_AGREEMENT,
+    SALARY_CERTIFICATE,
+    WORK_CERTIFICATE,
+    WORK_CONDITIONS_CERTIFICATE,
+    REFERENCE_LETTER,
+    WORK_HISTORY_CERTIFICATE,
+    INCOME_CERTIFICATE,
+    DISMISSAL_CERTIFICATE,
+    ATTENDANCE_REPORT,
+    CONTRACT_COPY,
+    WORK_BOOK_COPY,
+    UPLOADED_FILE,
+    // Candidate document types (used during application upload)
+    ID_CARD,
+    PHOTO,
+    CRIMINAL_RECORD,
+    MEDICAL_086,
+    DIPLOMA,
+    CERTIFICATE
+}

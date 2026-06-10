@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="001-create-documents" author="hr-platform">
+        <createTable tableName="documents" schemaName="document_schema">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="application_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="candidate_id" type="UUID"/>
+            <column name="vacancy_id" type="UUID"/>
+            <column name="document_type" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(30)" defaultValue="GENERATED">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_name" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="minio_object_key" type="VARCHAR(1000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content_type" type="VARCHAR(200)"/>
+            <column name="file_size" type="BIGINT"/>
+            <column name="signed_at" type="TIMESTAMP"/>
+            <column name="signed_by" type="UUID"/>
+            <column name="signature_data" type="TEXT"/>
+            <column name="qr_code_url" type="VARCHAR(1000)"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex tableName="documents" schemaName="document_schema" indexName="idx_documents_application_id">
+            <column name="application_id"/>
+        </createIndex>
+        <createIndex tableName="documents" schemaName="document_schema" indexName="idx_documents_candidate_id">
+            <column name="candidate_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
+

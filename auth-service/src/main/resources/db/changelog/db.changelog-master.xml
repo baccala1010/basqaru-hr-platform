@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <include file="db/changelog/changes/001-create-users-table.xml"/>
+    <include file="db/changelog/changes/002-create-login-audit-log-table.xml"/>
+    <include file="db/changelog/changes/003-add-photo-url-to-users.xml"/>
+    <include file="db/changelog/changes/004-add-last-login-at.xml"/>
+    <include file="db/changelog/changes/005-create-activity-log-table.xml"/>
+    <include file="db/changelog/changes/006-seed-test-users.xml"/>
+    <include file="db/changelog/changes/007-fix-audit-log-fk-on-delete-set-null.xml"/>
+
+</databaseChangeLog>
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="007-create-notifications" author="hr-platform">
+        <createTable tableName="notifications">
+            <column name="id" type="UUID" defaultValueComputed="gen_random_uuid()"><constraints primaryKey="true" nullable="false"/></column>
+            <column name="user_id" type="UUID"><constraints nullable="false"/></column>
+            <column name="title" type="VARCHAR(255)"><constraints nullable="false"/></column>
+            <column name="message" type="TEXT"><constraints nullable="false"/></column>
+            <column name="type" type="VARCHAR(50)"><constraints nullable="false"/></column>
+            <column name="is_read" type="BOOLEAN" defaultValueBoolean="false"><constraints nullable="false"/></column>
+            <column name="reference_id" type="UUID"/>
+            <column name="reference_type" type="VARCHAR(50)"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"><constraints nullable="false"/></column>
+        </createTable>
+        <createIndex tableName="notifications" indexName="idx_notifications_user"><column name="user_id"/></createIndex>
+        <createIndex tableName="notifications" indexName="idx_notifications_read"><column name="is_read"/></createIndex>
+    </changeSet>
+
+</databaseChangeLog>
+

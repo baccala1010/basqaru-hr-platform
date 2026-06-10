@@ -1,0 +1,161 @@
+
+<style>
+  .doc-wrap { max-width: 680px; font-family: var(--font-sans); color: var(--color-text-primary); font-size: 14px; line-height: 1.6; }
+  .doc-page { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 40px 48px; margin-bottom: 16px; }
+
+  .letterhead { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .lh-left { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+  .lh-left .org-name { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 2px; }
+  .lh-right { text-align: right; font-size: 12px; color: var(--color-text-secondary); }
+  .lh-right .reg-pill { display: inline-block; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 3px 10px; font-size: 12px; margin-bottom: 4px; }
+
+  .doc-center { text-align: center; margin: 24px 0 28px; }
+  .doc-center .doc-title { font-size: 17px; font-weight: 500; letter-spacing: 0.01em; }
+  .doc-center .doc-subtitle { font-size: 12px; color: var(--color-text-secondary); margin-top: 4px; }
+
+  .body-text { font-size: 14px; line-height: 1.8; margin-bottom: 16px; text-align: justify; }
+  .body-text .val { font-weight: 500; color: var(--color-text-primary); border-bottom: 0.5px solid var(--color-border-secondary); }
+  .body-text .val-num { font-weight: 500; color: var(--color-text-info); }
+
+  .purpose-block { background: var(--color-background-secondary); border-left: 2px solid var(--color-border-info); border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; padding: 10px 14px; font-size: 13px; color: var(--color-text-secondary); margin: 20px 0; }
+
+  .divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 24px 0; }
+
+  .sign-row { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 32px; }
+  .sign-col { font-size: 13px; }
+  .sign-col .role { color: var(--color-text-secondary); font-size: 12px; margin-bottom: 2px; }
+  .sign-col .name { font-weight: 500; }
+
+  .sign-section { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 24px 36px; }
+  .sign-title { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+
+  .sign-card { border: 0.5px solid #1D9E75; border-radius: var(--border-radius-md); padding: 16px; background: #E1F5EE; }
+  .sign-role-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; color: #0F6E56; margin-bottom: 6px; }
+  .sign-person { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 2px; }
+  .sign-org-sub { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 10px; }
+  .sign-badge { display: flex; align-items: center; gap: 6px; background: #9FE1CB; border-radius: var(--border-radius-md); padding: 7px 12px; font-size: 12px; color: #085041; margin-bottom: 8px; }
+  .ecp-detail { font-size: 11px; color: var(--color-text-tertiary); font-family: var(--font-mono); line-height: 1.5; }
+  .ecp-detail b { color: var(--color-text-secondary); font-family: var(--font-sans); font-weight: 500; }
+  .sign-time { font-size: 11px; color: #0F6E56; margin-top: 6px; }
+
+  .note-block { margin-top: 14px; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 10px 14px; background: var(--color-background-secondary); font-size: 12px; color: var(--color-text-secondary); }
+  .hash-block { margin-top: 12px; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 10px 14px; background: var(--color-background-secondary); }
+  .hash-label { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 3px; }
+  .hash-value { font-family: var(--font-mono); font-size: 11px; color: var(--color-text-tertiary); word-break: break-all; }
+  .action-row { display: flex; gap: 10px; margin-top: 14px; }
+  .action-row button { font-size: 13px; padding: 7px 16px; display: flex; align-items: center; gap: 6px; cursor: pointer; border-radius: var(--border-radius-md); }
+  .btn-info { background: var(--color-background-info); color: var(--color-text-info); border: 0.5px solid var(--color-border-info); }
+</style>
+
+<div class="doc-wrap">
+
+  <div class="doc-page">
+
+    <div class="letterhead">
+      <div class="lh-left">
+        <div class="org-name">ТОО «АлфаТех»</div>
+        <div>БИН: 240340027815</div>
+        <div>г. Астана, ул. Достык, 12, офис 301</div>
+        <div>Тел.: +7 (7172) 55-44-33</div>
+        <div>alfatech@example.kz</div>
+      </div>
+      <div class="lh-right">
+        <div class="reg-pill">№ СПР-2025-00089</div>
+        <div>Дата выдачи: 26.05.2025</div>
+        <div style="margin-top:8px; font-size:11px;">Действительна 30 дней</div>
+      </div>
+    </div>
+
+    <div class="doc-center">
+      <div class="doc-title">Справка с места работы</div>
+      <div class="doc-subtitle">Выдана по запросу работника</div>
+    </div>
+
+    <p class="body-text">
+      Настоящая справка выдана в том, что <span class="val">Жумабекова Айгерим Нурланқызы</span> (ИИН: <span class="val-num">960312450187</span>) действительно работает в Товариществе с ограниченной ответственностью «АлфаТех» (БИН: 240340027815) на должности <span class="val">Frontend-разработчик</span>, отдел разработки.
+    </p>
+
+    <p class="body-text">
+      Работник принят на работу <span class="val">01 июня 2025 года</span> на основании трудового договора № ТД-2025-00147. Вид занятости: <span class="val">основное место работы</span>, полная рабочая неделя (40 часов).
+    </p>
+
+    <p class="body-text">
+      Должностной оклад составляет <span class="val-num">450 000 (четыреста пятьдесят тысяч) тенге</span> в месяц до вычета индивидуального подоходного налога.
+    </p>
+
+    <div class="purpose-block">
+      <i class="ti ti-info-circle" style="font-size:14px; vertical-align:-2px;" aria-hidden="true"></i>
+      Справка выдана для предоставления в <b>банк второго уровня</b> по месту требования.
+    </div>
+
+    <hr class="divider">
+
+    <div class="sign-row">
+      <div class="sign-col">
+        <div class="role">Директор</div>
+        <div class="name">Сейткали Е.Б.</div>
+      </div>
+      <div style="font-size:12px; color:var(--color-text-tertiary); text-align:center;">
+        <div style="margin-bottom:4px;">Подписано электронной</div>
+        <div>цифровой подписью НУЦ РК</div>
+        <div style="margin-top:6px; width:64px; height:64px; border: 0.5px dashed var(--color-border-secondary); border-radius: var(--border-radius-md); display:flex; align-items:center; justify-content:center; margin-left:auto; margin-right:auto;">
+          <i class="ti ti-qrcode" style="font-size:32px; color:var(--color-text-tertiary);" aria-hidden="true"></i>
+        </div>
+        <div style="font-size:10px; margin-top:4px;">QR для проверки</div>
+      </div>
+      <div class="sign-col" style="text-align:right;">
+        <div class="role">Главный бухгалтер</div>
+        <div class="name">Нурмагамбетова Д.С.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sign-section">
+    <div class="sign-title">
+      <i class="ti ti-shield-check" style="font-size:17px;" aria-hidden="true"></i>
+      Электронная цифровая подпись — проверено
+    </div>
+
+    <div class="sign-card">
+      <div class="sign-role-label">Подписант — Директор организации</div>
+      <div class="sign-person">Сейткали Ермек Болатович</div>
+      <div class="sign-org-sub">ТОО «АлфаТех» · БИН 240340027815 · Директор</div>
+      <div class="sign-badge">
+        <i class="ti ti-circle-check" style="font-size:16px;" aria-hidden="true"></i>
+        Подпись действительна · сертификат не отозван
+      </div>
+      <div class="ecp-detail">
+        <b>Тип подписи:</b> ЭЦП НУЦ РК, алгоритм ГОСТ 34.310-2004<br>
+        <b>Серийный номер:</b> 4A:F3:81:CC:2D:09:BE:11:00:4C…<br>
+        <b>Издатель:</b> RSA CA 2023 (НУЦ РК, pki.gov.kz)<br>
+        <b>Срок действия сертификата:</b> 24.04.2023 — 24.04.2026<br>
+        <b>OCSP-статус:</b> good · проверено 26.05.2025 14:41 UTC+5
+      </div>
+      <div class="sign-time">
+        <i class="ti ti-clock" style="font-size:12px; vertical-align:-1px;" aria-hidden="true"></i>
+        Подписано: 26.05.2025, 14:41:07 (UTC+5) · Временная метка TSP зафиксирована
+      </div>
+    </div>
+
+    <div class="note-block">
+      <i class="ti ti-info-circle" style="font-size:13px; vertical-align:-2px;" aria-hidden="true"></i>
+      Справка подписана одной стороной (работодатель). Подпись работника для данного типа документа не требуется. Документ имеет юридическую силу в соответствии с Законом РК № 370 от 07.01.2003.
+    </div>
+
+    <div class="hash-block">
+      <div class="hash-label"><i class="ti ti-fingerprint" style="font-size:13px; vertical-align:-1px;" aria-hidden="true"></i>  SHA-256 хеш документа</div>
+      <div class="hash-value">a7f3d92c1b04e85f6c3d1e2a94b7c0f8d3e6a1b5c2d4f7e0a9b3c6d8e1f4a2b…</div>
+    </div>
+
+    <div class="action-row">
+      <button class="btn-info" onclick="sendPrompt('Как реализовать QR-код для проверки подлинности справки?')">
+        <i class="ti ti-qrcode" style="font-size:15px;" aria-hidden="true"></i> QR-верификация ↗
+      </button>
+      <button onclick="sendPrompt('Покажи шаблон приказа о приёме на работу по законодательству РК')">
+        <i class="ti ti-file-plus" style="font-size:15px;" aria-hidden="true"></i> Приказ о приёме ↗
+      </button>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="003-create-candidates" author="hr-platform">
+        <createTable tableName="candidates">
+            <column name="id" type="UUID" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="UUID">
+                <constraints nullable="false" unique="true" uniqueConstraintName="uk_candidates_user_id"/>
+            </column>
+            <column name="email" type="VARCHAR(255)"><constraints nullable="false"/></column>
+            <column name="first_name" type="VARCHAR(100)"><constraints nullable="false"/></column>
+            <column name="last_name" type="VARCHAR(100)"><constraints nullable="false"/></column>
+            <column name="birth_date" type="DATE"/>
+            <column name="iin" type="VARCHAR(12)"/>
+            <column name="phone" type="VARCHAR(20)"/>
+            <column name="address" type="TEXT"/>
+            <column name="activity_type" type="VARCHAR(255)"/>
+            <column name="status" type="VARCHAR(20)" defaultValue="ACTIVE"><constraints nullable="false"/></column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"><constraints nullable="false"/></column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"><constraints nullable="false"/></column>
+        </createTable>
+        <createIndex tableName="candidates" indexName="idx_candidates_user_id"><column name="user_id"/></createIndex>
+        <createIndex tableName="candidates" indexName="idx_candidates_email"><column name="email"/></createIndex>
+    </changeSet>
+
+</databaseChangeLog>
+

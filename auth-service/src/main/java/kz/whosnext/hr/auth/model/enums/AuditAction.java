@@ -1,0 +1,19 @@
+package kz.whosnext.hr.auth.model.enums;
+
+public enum AuditAction {
+    LOGIN_SUCCESS,
+    LOGIN_FAILURE,
+    LOGOUT,
+    REGISTER,
+    EMAIL_CONFIRMED,
+    PASSWORD_CHANGE,
+    PASSWORD_RESET_REQUEST,
+    PASSWORD_RESET,
+    ROLE_CHANGED,
+    PROFILE_UPDATED,
+    ACCOUNT_DELETED,
+    OAUTH2_LOGIN,
+    TOKEN_REFRESH,
+    ACCESS_DENIED
+}
+

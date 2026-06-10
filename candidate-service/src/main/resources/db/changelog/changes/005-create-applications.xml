@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="005-create-applications" author="hr-platform">
+        <createTable tableName="applications">
+            <column name="id" type="UUID" defaultValueComputed="gen_random_uuid()"><constraints primaryKey="true" nullable="false"/></column>
+            <column name="candidate_id" type="UUID"><constraints nullable="false" foreignKeyName="fk_applications_candidate" references="candidates(id)"/></column>
+            <column name="vacancy_id" type="UUID"><constraints nullable="false" foreignKeyName="fk_applications_vacancy" references="vacancies(id)"/></column>
+            <column name="status" type="VARCHAR(30)" defaultValue="PENDING"><constraints nullable="false"/></column>
+            <column name="first_name" type="VARCHAR(100)"><constraints nullable="false"/></column>
+            <column name="last_name" type="VARCHAR(100)"><constraints nullable="false"/></column>
+            <column name="birth_date" type="DATE"><constraints nullable="false"/></column>
+            <column name="iin" type="VARCHAR(12)"><constraints nullable="false"/></column>
+            <column name="phone" type="VARCHAR(20)"><constraints nullable="false"/></column>
+            <column name="email" type="VARCHAR(255)"><constraints nullable="false"/></column>
+            <column name="address" type="TEXT"><constraints nullable="false"/></column>
+            <column name="activity_type" type="VARCHAR(255)"/>
+            <column name="contact_info" type="TEXT"/>
+            <column name="personal_data_consent" type="BOOLEAN"><constraints nullable="false"/></column>
+            <column name="interview_type" type="VARCHAR(20)"/>
+            <column name="interview_date" type="TIMESTAMP"/>
+            <column name="interview_message" type="TEXT"/>
+            <column name="rejection_message" type="TEXT"/>
+            <column name="revision_message" type="TEXT"/>
+            <column name="revision_comment" type="TEXT"/>
+            <column name="documents_ready" type="BOOLEAN" defaultValueBoolean="false"><constraints nullable="false"/></column>
+            <column name="documents_signed" type="BOOLEAN" defaultValueBoolean="false"><constraints nullable="false"/></column>
+            <column name="promoted_at" type="TIMESTAMP"/>
+            <column name="promoted_by" type="UUID"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"><constraints nullable="false"/></column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"><constraints nullable="false"/></column>
+        </createTable>
+        <createIndex tableName="applications" indexName="idx_applications_candidate"><column name="candidate_id"/></createIndex>
+        <createIndex tableName="applications" indexName="idx_applications_vacancy"><column name="vacancy_id"/></createIndex>
+        <createIndex tableName="applications" indexName="idx_applications_status"><column name="status"/></createIndex>
+    </changeSet>
+
+</databaseChangeLog>
+

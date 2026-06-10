@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="003-add-dual-qr-and-signature-meta" author="hr-platform">
+        <addColumn tableName="documents" schemaName="document_schema">
+            <column name="verification_qr_url" type="VARCHAR(1000)"/>
+            <column name="signature_qr_url" type="VARCHAR(1000)"/>
+            <column name="signature_hash" type="VARCHAR(128)"/>
+            <column name="signer_iin" type="VARCHAR(12)"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>
+

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="004-create-vacancies" author="hr-platform">
+        <createTable tableName="vacancies">
+            <column name="id" type="UUID" defaultValueComputed="gen_random_uuid()"><constraints primaryKey="true" nullable="false"/></column>
+            <column name="title" type="VARCHAR(255)"><constraints nullable="false"/></column>
+            <column name="company" type="VARCHAR(255)"><constraints nullable="false"/></column>
+            <column name="company_logo_url" type="VARCHAR(500)"/>
+            <column name="location" type="VARCHAR(30)"><constraints nullable="false"/></column>
+            <column name="employment_type" type="VARCHAR(30)"><constraints nullable="false"/></column>
+            <column name="experience_level" type="VARCHAR(30)"><constraints nullable="false"/></column>
+            <column name="category" type="VARCHAR(50)"><constraints nullable="false"/></column>
+            <column name="description" type="TEXT"><constraints nullable="false"/></column>
+            <column name="short_description" type="VARCHAR(500)"/>
+            <column name="skills" type="TEXT"/>
+            <column name="salary_min" type="DECIMAL(12,2)"/>
+            <column name="salary_max" type="DECIMAL(12,2)"/>
+            <column name="position_id" type="UUID"><constraints foreignKeyName="fk_vacancies_position" references="positions(id)"/></column>
+            <column name="contract_type_id" type="UUID"><constraints foreignKeyName="fk_vacancies_contract_type" references="contract_types(id)"/></column>
+            <column name="requires_criminal_record" type="BOOLEAN" defaultValueBoolean="false"><constraints nullable="false"/></column>
+            <column name="requires_medical_cert" type="BOOLEAN" defaultValueBoolean="false"><constraints nullable="false"/></column>
+            <column name="active" type="BOOLEAN" defaultValueBoolean="true"><constraints nullable="false"/></column>
+            <column name="created_by" type="UUID"><constraints nullable="false"/></column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"><constraints nullable="false"/></column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"><constraints nullable="false"/></column>
+        </createTable>
+        <createIndex tableName="vacancies" indexName="idx_vacancies_active"><column name="active"/></createIndex>
+        <createIndex tableName="vacancies" indexName="idx_vacancies_category"><column name="category"/></createIndex>
+        <createIndex tableName="vacancies" indexName="idx_vacancies_location"><column name="location"/></createIndex>
+    </changeSet>
+
+</databaseChangeLog>
+

@@ -1,0 +1,60 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  GIT_SSL_NO_VERIFY: "true"
+  DOCKER_TLS_CERTDIR: ""
+
+docker-build:
+  stage: build
+  image: docker:latest
+  tags:
+    - build
+  services:
+    - docker:dind
+  only:
+    - master
+  before_script:
+    - docker login "$CI_REGISTRY" -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
+  script:
+    - docker build -t "$CI_REGISTRY_IMAGE/api-gateway:latest" -f api-gateway/Dockerfile .
+    - docker push "$CI_REGISTRY_IMAGE/api-gateway:latest"
+
+    - docker build -t "$CI_REGISTRY_IMAGE/auth-service:latest" -f auth-service/Dockerfile .
+    - docker push "$CI_REGISTRY_IMAGE/auth-service:latest"
+
+    - docker build -t "$CI_REGISTRY_IMAGE/candidate-service:latest" -f candidate-service/Dockerfile .
+    - docker push "$CI_REGISTRY_IMAGE/candidate-service:latest"
+
+    - docker build -t "$CI_REGISTRY_IMAGE/document-service:latest" -f document-service/Dockerfile .
+    - docker push "$CI_REGISTRY_IMAGE/document-service:latest"
+
+    - docker build -t "$CI_REGISTRY_IMAGE/employee-service:latest" -f employee-service/Dockerfile .
+    - docker push "$CI_REGISTRY_IMAGE/employee-service:latest"
+    
+deploy:
+  stage: deploy
+  image: alpine:latest
+  tags:
+    - prod
+  only:
+    - master
+  before_script:
+    - apk add --no-cache openssh-client
+  script:
+    - echo "$SSH_PRIVATE_KEY" > /tmp/id_rsa
+    - chmod 600 /tmp/id_rsa
+    - |
+      ssh -o StrictHostKeyChecking=no -i /tmp/id_rsa $SSH_USER@$SSH_HOST "
+        set -e
+
+        cd /home/vm/Projects/hr-system
+
+        docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+
+        docker compose pull
+        docker compose up -d --remove-orphans
+
+        docker compose ps
+      "

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="013-create-employee-payroll-profiles" author="hr-platform">
+        <createTable tableName="employee_payroll_profiles" schemaName="employee_schema">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="employee_id" type="UUID">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="monthly_salary" type="DECIMAL(14,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="monthly_bonus" type="DECIMAL(14,2)" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="effective_from" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableSchemaName="employee_schema"
+                baseTableName="employee_payroll_profiles"
+                baseColumnNames="employee_id"
+                referencedTableSchemaName="employee_schema"
+                referencedTableName="employees"
+                referencedColumnNames="id"
+                constraintName="fk_payroll_profiles_employee"/>
+
+        <createIndex tableName="employee_payroll_profiles" schemaName="employee_schema" indexName="idx_payroll_profiles_employee_id">
+            <column name="employee_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
+

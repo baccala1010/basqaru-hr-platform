@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="006-create-attendance-records" author="hr-platform">
+        <createTable tableName="attendance_records" schemaName="employee_schema">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="employee_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="present" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="check_in" type="TIME"/>
+            <column name="check_out" type="TIME"/>
+            <column name="location" type="VARCHAR(500)"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableSchemaName="employee_schema" baseTableName="attendance_records" baseColumnNames="employee_id"
+                referencedTableSchemaName="employee_schema" referencedTableName="employees" referencedColumnNames="id"
+                constraintName="fk_attendance_employee"/>
+
+        <createIndex tableName="attendance_records" schemaName="employee_schema" indexName="idx_attendance_employee_date">
+            <column name="employee_id"/>
+            <column name="date"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
+

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!--
+        Seed test users for local development.
+        All passwords: Password123!
+        Hash: $2a$10$VjC.U63nYELY62dizTuTbOa46HzGlU8fxZahlrfq30yuF/Lx6mnWq
+        Fixed UUIDs so other services (candidate, employee) can reference them.
+
+        Uses ON CONFLICT DO NOTHING so re-running on an already-seeded DB is safe.
+    -->
+    <changeSet id="006-seed-test-users" author="hr-platform" runOnChange="true">
+        <sql>
+            INSERT INTO auth_schema.users (
+                id, email, password_hash, first_name, last_name, phone, role,
+                email_verified, two_factor_enabled, personal_data_consent, push_notification_consent
+            ) VALUES
+                ('10000000-0000-0000-0000-000000000001', 'candidate1@hr.local',
+                 '$2a$10$VjC.U63nYELY62dizTuTbOa46HzGlU8fxZahlrfq30yuF/Lx6mnWq',
+                 'Алия', 'Серикова', '+77010000001', 'CANDIDATE', true, false, true, true),
+
+                ('10000000-0000-0000-0000-000000000002', 'candidate2@hr.local',
+                 '$2a$10$VjC.U63nYELY62dizTuTbOa46HzGlU8fxZahlrfq30yuF/Lx6mnWq',
+                 'Тимур', 'Абдрахманов', '+77010000002', 'CANDIDATE', true, false, true, true),
+
+                ('10000000-0000-0000-0000-000000000003', 'employee1@hr.local',
+                 '$2a$10$VjC.U63nYELY62dizTuTbOa46HzGlU8fxZahlrfq30yuF/Lx6mnWq',
+                 'Дана', 'Ибраева', '+77010000003', 'EMPLOYEE', true, false, true, true),
+
+                ('10000000-0000-0000-0000-000000000004', 'employee2@hr.local',
+                 '$2a$10$VjC.U63nYELY62dizTuTbOa46HzGlU8fxZahlrfq30yuF/Lx6mnWq',
+                 'Арман', 'Кудайберген', '+77010000004', 'EMPLOYEE', true, false, true, true),
+
+                ('10000000-0000-0000-0000-000000000005', 'hr1@hr.local',
+                 '$2a$10$VjC.U63nYELY62dizTuTbOa46HzGlU8fxZahlrfq30yuF/Lx6mnWq',
+                 'Салтанат', 'Жумабекова', '+77010000005', 'HR', true, false, true, true),
+
+                ('10000000-0000-0000-0000-000000000006', 'admin1@hr.local',
+                 '$2a$10$VjC.U63nYELY62dizTuTbOa46HzGlU8fxZahlrfq30yuF/Lx6mnWq',
+                 'Аскар', 'Тулеев', '+77010000006', 'ADMIN', true, false, true, true),
+
+                ('10000000-0000-0000-0000-000000000007', 'director1@hr.local',
+                 '$2a$10$VjC.U63nYELY62dizTuTbOa46HzGlU8fxZahlrfq30yuF/Lx6mnWq',
+                 'Нурлан', 'Ермеков', '+77010000007', 'DIRECTOR', true, false, true, true),
+
+                ('10000000-0000-0000-0000-000000000008', 'employee3@hr.local',
+                 '$2a$10$VjC.U63nYELY62dizTuTbOa46HzGlU8fxZahlrfq30yuF/Lx6mnWq',
+                 'Айгерим', 'Смагулова', '+77010000008', 'EMPLOYEE', true, false, true, true),
+
+                ('10000000-0000-0000-0000-000000000009', 'accountant1@hr.local',
+                 '$2a$10$VjC.U63nYELY62dizTuTbOa46HzGlU8fxZahlrfq30yuF/Lx6mnWq',
+                 'Гульнара', 'Сейтжанова', '+77010000009', 'ACCOUNTANT', true, false, true, true)
+
+            ON CONFLICT (id) DO NOTHING;
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,16 @@
+package kz.whosnext.hr.documentservice.model.enums;
+
+public enum ActivityAction {
+
+    DOCUMENT_UPLOADED,
+    DOCUMENT_DELETED,
+    DOCUMENT_GENERATED,
+    DOCUMENT_SIGNED,
+    DOCUMENT_REGENERATED,
+
+    TEMPLATE_UPLOADED,
+    TEMPLATE_UPDATED,
+    TEMPLATE_DELETED,
+
+    CERTIFICATE_GENERATED
+}

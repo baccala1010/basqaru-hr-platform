@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="003-create-employees" author="hr-platform">
+        <createTable tableName="employees" schemaName="employee_schema">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="UUID">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="candidate_id" type="UUID"/>
+            <column name="application_id" type="UUID"/>
+            <column name="department_id" type="UUID"/>
+            <column name="work_schedule_id" type="UUID"/>
+            <column name="position_name" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contract_type" type="VARCHAR(50)"/>
+            <column name="first_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="middle_name" type="VARCHAR(100)"/>
+            <column name="iin" type="VARCHAR(12)"/>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone" type="VARCHAR(20)"/>
+            <column name="address" type="TEXT"/>
+            <column name="birth_date" type="DATE"/>
+            <column name="hire_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fire_date" type="DATE"/>
+            <column name="status" type="VARCHAR(20)" defaultValue="PROBATION">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableSchemaName="employee_schema" baseTableName="employees" baseColumnNames="department_id"
+                referencedTableSchemaName="employee_schema" referencedTableName="departments" referencedColumnNames="id"
+                constraintName="fk_employees_department"/>
+
+        <addForeignKeyConstraint
+                baseTableSchemaName="employee_schema" baseTableName="employees" baseColumnNames="work_schedule_id"
+                referencedTableSchemaName="employee_schema" referencedTableName="work_schedules" referencedColumnNames="id"
+                constraintName="fk_employees_schedule"/>
+
+        <createIndex tableName="employees" schemaName="employee_schema" indexName="idx_employees_user_id">
+            <column name="user_id"/>
+        </createIndex>
+        <createIndex tableName="employees" schemaName="employee_schema" indexName="idx_employees_department_id">
+            <column name="department_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
+

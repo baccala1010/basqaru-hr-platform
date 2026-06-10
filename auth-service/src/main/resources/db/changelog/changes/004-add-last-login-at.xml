@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!--
+        ПРИМЕР МИГРАЦИИ — шаблон для команды разработки.
+
+        Правила:
+        1. id должен быть уникальным по всему проекту (формат: NNN-описание)
+        2. author — ваш GitHub username или имя
+        3. Никогда не редактируйте уже применённые changeset'ы
+        4. Для rollback всегда описывайте <rollback> если операция необратима
+
+        Как добавить новую миграцию:
+        1. Создайте файл 00N-название.xml в этой папке
+        2. Добавьте его в db.changelog-master.xml через <include file="..."/>
+        3. Запустите сервис — Liquibase применит changeSet автоматически
+    -->
+
+    <changeSet id="004-add-last-login-at" author="hr-platform">
+        <comment>Добавляет поле last_login_at для отслеживания последнего входа пользователя</comment>
+
+        <addColumn tableName="users">
+            <column name="last_login_at" type="TIMESTAMP">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <createIndex tableName="users" indexName="idx_users_last_login_at">
+            <column name="last_login_at"/>
+        </createIndex>
+
+        <rollback>
+            <dropIndex tableName="users" indexName="idx_users_last_login_at"/>
+            <dropColumn tableName="users" columnName="last_login_at"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
+
