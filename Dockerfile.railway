@@ -54,9 +54,7 @@ COPY --from=build /app/employee-service/target/*.jar   /app/employee-service.jar
 RUN mkdir -p /var/log/supervisor
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Health check on api-gateway (entry point)
-HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=3 \
-    CMD wget -qO- http://localhost:8080/actuator/health || exit 1
+# Railway manages healthchecks externally via railway.json — no Docker HEALTHCHECK needed
 
 EXPOSE 8080 8081 8082 8083 8084
 
