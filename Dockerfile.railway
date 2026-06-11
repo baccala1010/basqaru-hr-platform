@@ -1,0 +1,63 @@
+# =============================================================================
+# HR Platform — Railway Multi-Service Dockerfile
+#
+# Builds all 5 Spring Boot microservices in one multi-stage build,
+# then runs them in a single container via supervisord.
+#
+# This is a deployment simplification for Railway — each service still
+# runs as its own JVM process with its own port.
+# =============================================================================
+
+# ---- Stage 1: Build all services ----
+FROM maven:3.9.6-eclipse-temurin-21 AS build
+WORKDIR /app
+
+# Cache Maven dependencies (layer 1: pom files only)
+COPY pom.xml .
+COPY api-gateway/pom.xml api-gateway/pom.xml
+COPY auth-service/pom.xml auth-service/pom.xml
+COPY candidate-service/pom.xml candidate-service/pom.xml
+COPY document-service/pom.xml document-service/pom.xml
+COPY employee-service/pom.xml employee-service/pom.xml
+RUN mvn dependency:go-offline -B -q || true
+
+# Copy all sources and build
+COPY api-gateway/src api-gateway/src
+COPY auth-service/src auth-service/src
+COPY candidate-service/src candidate-service/src
+COPY document-service/src document-service/src
+COPY employee-service/src employee-service/src
+RUN mvn package -DskipTests -B -q
+
+# ---- Stage 2: Runtime ----
+FROM eclipse-temurin:21-jre-alpine
+WORKDIR /app
+
+# Install supervisor and supporting tools
+RUN apk add --no-cache supervisor icu-libs tzdata font-dejavu fontconfig && \
+    fc-cache -f && \
+    addgroup -S appgroup && adduser -S appuser -G appgroup
+
+# Environment
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
+ENV TZ=Asia/Almaty
+
+# Copy built JARs
+COPY --from=build /app/api-gateway/target/*.jar     /app/api-gateway.jar
+COPY --from=build /app/auth-service/target/*.jar      /app/auth-service.jar
+COPY --from=build /app/candidate-service/target/*.jar  /app/candidate-service.jar
+COPY --from=build /app/document-service/target/*.jar   /app/document-service.jar
+COPY --from=build /app/employee-service/target/*.jar   /app/employee-service.jar
+
+# Supervisord config — one program per service
+RUN mkdir -p /var/log/supervisor
+COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Health check on api-gateway (entry point)
+HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=3 \
+    CMD wget -qO- http://localhost:8080/actuator/health || exit 1
+
+EXPOSE 8080 8081 8082 8083 8084
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf", "-n"]
